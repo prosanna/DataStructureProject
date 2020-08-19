@@ -27,7 +27,58 @@ public class PrimeFactor {
 		System.out.println(l1 + " " + l2);
 
 		calculateLCM(l1, l2);
+		calculateHCF(70, 90);
 
+	}
+
+	/**
+	 * Calculate HCF
+	 * @param i
+	 * @param j
+	 */
+	private static void calculateHCF(int i, int j) {
+		List<Integer> l1 = calculatePrimeFactors(i);
+		List<Integer> l2 = calculatePrimeFactors(j);
+		
+		
+		Map<Object, Long> m1 = l1.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
+		Map<Object, Long> m2 = l2.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
+		
+				
+		System.out.println(m1+" "+m2);
+		
+		Map<Object, Long> finalMap = new HashMap<Object, Long>();
+
+		for (Map.Entry<Object, Long> entry : m1.entrySet()) {
+		
+			for (Map.Entry<Object, Long> entry2 : m2.entrySet()) {
+				if (entry.getKey()== entry2.getKey()) {
+					if(entry.getValue()<=entry2.getValue()) {
+						finalMap.put(entry.getKey(), entry.getValue());
+					} else {
+						finalMap.put(entry2.getKey(), entry2.getValue());
+					}
+				}
+				
+			}
+			 
+
+		}
+		
+		
+		System.out.println(finalMap);
+		
+		long HCF = 1;
+		for (Map.Entry<Object, Long> entry : finalMap.entrySet()) {
+
+			System.out.println(entry.getKey() + " " + entry.getValue());
+			for (int i1 = 0; i1 < entry.getValue(); i1++) {
+				HCF *= Long.valueOf(entry.getKey().toString());
+			}
+		}
+
+		System.out.println(HCF);
+		
 	}
 
 	/**
